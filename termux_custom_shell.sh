@@ -17,10 +17,10 @@ fi
 # Header-Funktion
 show_header() {
     clear
-    echo -e "${CYAN}╔══════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║                ${GREEN}BLACK-TERMUX${CYAN}                      ║${NC}"
-    echo -e "${CYAN}║        ${YELLOW}Eine bessere Termux-Bedienung${CYAN}              ║${NC}"
-    echo -e "${CYAN}╚══════════════════════════════════════════════════════╝${NC}"
+    echo -e "${CYAN}╔════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}              ${GREEN}BLACK-TERMUX${CYAN}                      ${NC}"
+    echo -e "${CYAN}      ${YELLOW}Eine bessere Termux-Bedienung${CYAN}              ${NC}"
+    echo -e "${CYAN}╚════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
 
@@ -81,10 +81,43 @@ python_files() {
         return
     fi
     
-    # Python-Datei ausführen
+    # Python-Datei ausführen und Fehler abfangen
     chosen_file="${files[$((choice-1))]}"
     echo -e "\n${GREEN}Starte: ${YELLOW}$chosen_file${NC}\n"
-    python "$chosen_file"
+    
+    # Führe die Python-Datei aus und fange Fehler ab
+    output=$(python "$chosen_file" 2>&1)
+    exit_code=$?
+    
+    if [ $exit_code -ne 0 ]; then
+        echo -e "${RED}Fehler beim Ausführen der Datei:${NC}\n$output"
+        
+        # Überprüfen, ob der Fehler auf fehlende Module hinweist
+        if echo "$output" | grep -q "ModuleNotFoundError"; then
+            # Extrahiere den Modulnamen aus der Fehlermeldung
+            missing_module=$(echo "$output" | grep -oP "(?<=No module named ')[^']+")
+            echo -e "${YELLOW}Möchtest du das fehlende Modul '${missing_module}' installieren? (j/n): ${NC}"
+            read -r install_choice
+            
+            if [[ "$install_choice" == "j" || "$install_choice" == "J" ]]; then
+                echo -e "${GREEN}Installiere Modul: ${missing_module}${NC}"
+                pip install "$missing_module"
+                echo -e "${GREEN}Modul '${missing_module}' wurde installiert.${NC}"
+                
+                # Versuche die Datei erneut auszuführen
+                output=$(python "$chosen_file" 2>&1)
+                exit_code=$?
+                
+                if [ $exit_code -eq 0 ]; then
+                    echo -e "${GREEN}Die Datei wurde erfolgreich ausgeführt.${NC}"
+                else
+                    echo -e "${RED}Fehler beim erneuten Ausführen der Datei:${NC}\n$output"
+                fi
+            fi
+        fi
+    } else {
+        echo -e "${GREEN}Die Datei wurde erfolgreich ausgeführt.${NC}"
+    }
     
     read -p "Drücke ENTER zum Fortfahren..."
 }
@@ -197,34 +230,49 @@ start_terminal() {
 }
 
 # Hauptmenü
+# Hauptmenü
 main_menu() {
     while true; do
         show_header
         echo -e "${BLUE}Hauptmenü${NC}\n"
         
         options=(
-            "Python-Dateien (aus /sdcard/py/)"
-            "Module Installieren"
-            "Module Updaten"
-            "Ordner in /sdcard/ durchsuchen"
-            "Termux Terminal"
-            "Beenden"
+            "📂 1) Python-Dateien (aus /py/)"
+            "📦 2) Module Installieren"
+            "🔄 3) Module Updaten"
+            "📁 4) Ordner in /sdcard/"
+            "🖥️ 5) Termux Terminal"
+            "🚪 6) Beenden"
         )
         
-        select_from_list "${options[@]}"
-        choice=$?
+        for opt in "${options[@]}"; do
+            echo -e "${CYAN}╔══════════════════════════════════════╗${NC}"
+            echo -e "${CYAN}  ${GREEN}${opt}${CYAN}  ${NC}"
+            echo -e "${CYAN}╚══════════════════════════════════════╝${NC}"
+        done
         
-        case $choice in
-            0|6) 
-                echo -e "\n${GREEN}Auf Wiedersehen!${NC}"
-                exit 0
-                ;;
-            1) python_files ;;
-            2) install_module ;;
-            3) update_modules ;;
-            4) browse_sdcard ;;
-            5) start_terminal ;;
-        esac
+        echo -e "${RED}0)${NC} Zurück"
+        
+        while true; do
+            read -p "Wähle eine Option (0-$(( ${#options[@]} ))): " choice
+            
+            if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 0 ] && [ "$choice" -lt "$(( ${#options[@]} + 1 ))" ]; then
+                case $choice in
+                    0) return ;;
+                    *) 
+                        case $choice in
+                            1) python_files ;;
+                            2) install_module ;;
+                            3) update_modules ;;
+                            4) browse_sdcard ;;
+                            5) start_terminal ;;
+                            6) echo -e "\n${GREEN}Auf Wiedersehen!${NC}"; exit 0 ;;
+                        esac
+                fi
+            else
+                echo -e "${RED}Ungültige Eingabe. Bitte erneut versuchen.${NC}"
+            fi
+        done
     done
 }
 
