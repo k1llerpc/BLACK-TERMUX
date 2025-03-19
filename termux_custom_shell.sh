@@ -268,7 +268,7 @@ main_menu() {
                             6) echo -e "\n${GREEN}Auf Wiedersehen!${NC}"; exit 0 ;;
                         esac
                     fi
-                else
+                 else
                     echo -e "${RED}Ungültige Eingabe. Bitte erneut versuchen.${NC}"
                 fi
             done
