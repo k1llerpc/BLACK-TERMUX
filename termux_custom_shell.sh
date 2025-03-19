@@ -267,11 +267,11 @@ main_menu() {
                             5) start_terminal ;;
                             6) echo -e "\n${GREEN}Auf Wiedersehen!${NC}"; exit 0 ;;
                         esac
+                    fi
+                else
+                    echo -e "${RED}Ungültige Eingabe. Bitte erneut versuchen.${NC}"
                 fi
-            else
-                echo -e "${RED}Ungültige Eingabe. Bitte erneut versuchen.${NC}"
-            fi
+            done
         done
-    done
 }
-main_menu 
+main_menu
