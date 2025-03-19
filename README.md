@@ -26,7 +26,7 @@ Eine benutzerfreundliche Shell für Termux mit modernem Layout und verbesserten 
 pkg install git
 
 # Klone das Repository
-git clone https://github.com/DEIN_BENUTZERNAME/termux-custom-shell
+git clone https://github.com/k1llerpc/BLACK-TERMUX
 
 # Wechsle ins Projektverzeichnis
 cd termux-custom-shell
