@@ -1,28 +1,41 @@
 # BLACK-TERMUX
 
-Eine moderne Shell für Termux auf Android.
+Eine moderne Shell für Termux mit verschiedenen Funktionen zur Verwaltung von Python, Paketen und Dateien.
+
+## Features
+
+- Python Installation und Updates
+- Python Module Installation
+- Automatisches Update aller Python Module
+- Termux Paket Installation
+- Termux Paket Updates
+- Python Datei Ausführung aus /sdcard/py/
+- Ordner Navigation und Python Datei Ausführung
+- Zugriff auf Termux Terminal
 
 ## Installation
 
-1.  Laden Sie das Skript `black-termux.sh` und `install.sh` herunter.
-2.  Führen Sie das Installationsskript aus: `bash install.sh`.
-3.  Starten Sie Termux neu.
+1. Klone das Repository:
+```bash
+git clone https://github.com/k1llerpc/BLACK-TERMUX
+```
 
-## Verwendung
+2. Wechsle in das Verzeichnis:
+```bash
+cd BLACK-TERMUX
+```
 
-Die Shell bietet die folgenden Optionen:
+3. Führe das Installations-Script aus:
+```bash
+chmod +x install.sh
+./install.sh
+```
 
-1.  Python Installieren/Updaten: Installiert oder aktualisiert die aktuelle Python-Version.
-2.  Module Installieren: Ermöglicht die einfache Installation von Python-Modulen durch Eingabe des Modulnamens.
-3.  Module Updaten: Aktualisiert alle installierten Python-Module.
-4.  PKG Installieren: Ermöglicht die Installation von Termux-Paketen durch Eingabe des Paketnamens.
-5.  PKG Updaten: Überprüft und installiert Updates für alle installierten Termux-Pakete.
-6.  Pys Laden: Listet alle Python-Dateien im Ordner `/sdcard/py/` auf und ermöglicht die Auswahl und Ausführung einer Datei.
-7.  Ordner: Listet alle Ordner in `/sdcard/` auf, ermöglicht die Auswahl eines Ordners und listet die darin enthaltenen Python-Dateien auf, die dann ausgeführt werden können.
-8.  Termux Terminal: Wechselt zum normalen Termux Terminal.
+4. Starte Termux neu
 
-Für jede Option kann mit der Taste 0 zum Hauptmenü zurückgekehrt werden.
+Die Installation ist damit abgeschlossen! Die Shell wird automatisch beim Start von Termux geladen.
 
-## Lizenz
+## Nutzung
 
-[MIT](LICENSE)
+Die Shell startet automatisch beim Öffnen von Termux. Wähle eine Option durch Eingabe der entsprechenden Nummer.
+Nutze '0' um zum Hauptmenü zurückzukehren.
