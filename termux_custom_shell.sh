@@ -230,7 +230,6 @@ start_terminal() {
 }
 
 # Hauptmenü
-# Hauptmenü
 main_menu() {
     while true; do
         show_header
@@ -240,7 +239,7 @@ main_menu() {
             "📂 1) Python-Dateien (aus /py/)"
             "📦 2) Module Installieren"
             "🔄 3) Module Updaten"
-            "📁 4) Ordner in /sdcard/"
+            "📁 4) Ordner in /sdcard/ "
             "🖥️ 5) Termux Terminal"
             "🚪 6) Beenden"
         )
@@ -275,6 +274,4 @@ main_menu() {
         done
     done
 }
-
-# Start des Programms
 main_menu 
