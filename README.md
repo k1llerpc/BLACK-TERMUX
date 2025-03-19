@@ -29,7 +29,7 @@ pkg install git
 git clone https://github.com/k1llerpc/BLACK-TERMUX
 
 # Wechsle ins Projektverzeichnis
-cd termux-custom-shell
+cd BLACK-TERMUX
 
 # Führe das Installations-Skript aus
 bash install.sh
